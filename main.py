@@ -47,5 +47,9 @@ temp = {
 }
 
 sensors = db.sensors
-temp_id = sensors.insert(temp)
+#temp_id = sensors.insert(temp)
+list(sensors.find( { "_id": temp_id}))
 
+db.sensors.update( { _id: ObjectId("5480cd50106a6c260d828b50")}, {$push: {"Sensor.values.0.val1.0.val": "3.5"}})
+
+> db.sensors.update( { _id: ObjectId("5480cd50106a6c260d828b50")}, {$push: {"Sensor.localization":  { y:"23",x:"45",z:"11",timestamp:ISODate()}}})
