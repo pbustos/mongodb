@@ -25,22 +25,24 @@ temp = {
           "timestamp": "fecha3"
         }
       ],
-    "calibration-data": [
+    "sensor-data": [
       {
-        "value": "very good",
-        "timestamp": "fecha2"
+        "name": "temperature",
+        "calibration": "good",
+        "timestamp": "fecha2",
+        "units": "grados Celsius"
+      },
+      {
+        "name": "humidity",
+        "calibration": "fair",
+        "timestamp": "fecha2",
+        "units": "porcentaje"
       }
     ],
-    "values": [
+    "readings": [
       {
         "timestamp": "fecha2",
-        "val1": [
-          {
-            "name": "temp1",
-            "units": "degrees Celsius",
-            "val": ["9.4"]
-          }
-        ]
+        "values" : ["34", "43" ]
       }
     ]
   }
@@ -48,8 +50,12 @@ temp = {
 
 sensors = db.sensors
 #temp_id = sensors.insert(temp)
-list(sensors.find( { "_id": temp_id}))
+#list(sensors.find( { "_id": temp_id}))
+#
+def insertReadings(num):
+    for i in range(num):
+        v = np.random.rand(2)
+        sensors.update( { "_id": temp_id}, {"$push": {"Sensor.readings": \
+        {"timestamp":datetime.datetime.utcnow() , "values" : [str(v[0]),str(v[1])] }}})
 
-db.sensors.update( { _id: ObjectId("5480cd50106a6c260d828b50")}, {$push: {"Sensor.values.0.val1.0.val": "3.5"}})
-
-> db.sensors.update( { _id: ObjectId("5480cd50106a6c260d828b50")}, {$push: {"Sensor.localization":  { y:"23",x:"45",z:"11",timestamp:ISODate()}}})
+insertReadings(10000)
